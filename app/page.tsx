@@ -1,4 +1,6 @@
 import { CategoriesFilter } from "@/components/CategoriesFilter";
+import { RaceCardList } from "@/components/RaceCardList";
+import RefreshCountdown from "@/components/RefreshCountdown";
 
 export default function Home() {
   return (
@@ -30,6 +32,20 @@ export default function Home() {
       <main className="flex-1 px-4 sm:px-6 py-8 max-w-6xl mx-auto w-full">
         <div className="flex flex-col gap-6 mb-8">
           <CategoriesFilter />
+        </div>
+        <div className="space-y-4">
+          <div className="flex items-center gap-2 text-sm text-text-secondary">
+            <span
+              className="material-symbols-outlined"
+              style={{ fontSize: 16 }}
+            >
+              update
+            </span>
+
+            <RefreshCountdown />
+          </div>
+
+          <RaceCardList />
         </div>
       </main>
     </div>

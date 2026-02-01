@@ -1,12 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { api } from "../services/api";
 import categoryReducer from "./categorySlice";
+import metadataReducer from "./metadataSlice";
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
       [api.reducerPath]: api.reducer,
       category: categoryReducer,
+      metadata: metadataReducer,
     },
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware().concat(api.middleware),
