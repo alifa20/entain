@@ -1,8 +1,6 @@
 import { LiveRace, RaceSummary } from "@/types/races";
 import { createSelector, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-export const LIVE_RACE_DURATION_SECONDS = 60;
-
 interface LiveRacesState {
   races: Record<string, LiveRace>;
 }
