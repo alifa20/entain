@@ -1,3 +1,4 @@
+import { CategoriesFilter } from "@/components/CategoriesFilter";
 
 export default function Home() {
   return (
@@ -6,7 +7,9 @@ export default function Home() {
         <div className="max-w-6xl mx-auto px-6 py-8">
           <div className="flex items-center justify-between">
             <div className="flex flex-col justify-center">
-              <h1 className="text-3xl font-bold text-white tracking-tight">Next to Go</h1>
+              <h1 className="text-3xl font-bold text-white tracking-tight">
+                Next to Go
+              </h1>
               <p className="text-text-secondary mt-1 text-sm">
                 Live racing countdown • Updates every 60s
               </p>
@@ -14,13 +17,21 @@ export default function Home() {
             <div className="flex items-center gap-3">
               <span className="text-2xl">🏁</span>
               <div className="flex flex-col justify-center">
-                <p className="text-xs text-text-secondary uppercase tracking-wide">Showing</p>
+                <p className="text-xs text-text-secondary uppercase tracking-wide">
+                  Showing
+                </p>
                 <p className="text-lg font-bold text-primary">5 Races</p>
               </div>
             </div>
           </div>
         </div>
       </header>
+
+      <main className="flex-1 px-4 sm:px-6 py-8 max-w-6xl mx-auto w-full">
+        <div className="flex flex-col gap-6 mb-8">
+          <CategoriesFilter />
+        </div>
+      </main>
     </div>
   );
 }
