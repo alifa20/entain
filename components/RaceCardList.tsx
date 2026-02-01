@@ -2,13 +2,19 @@
 
 import { useRaceData } from "@/hooks/useRaceData";
 import { useAppSelector } from "@/lib/store";
-import { selectLastChecked } from "@/lib/store/metadataSlice";
-import RaceCardSkeleton from "./RaceCardSkeleton";
+import { selectCategory } from "@/lib/store/categorySlice";
+import { selectLiveRaces } from "@/lib/store/liveRacesSlice";
 import { RaceCard } from "./RaceCard";
-import RefreshCountdown from "./RefreshCountdown";
+import RaceCardSkeleton from "./RaceCardSkeleton";
 
 export function RaceCardList() {
-  const { data, isLoading, error } = useRaceData();
+  const selectedCategory = useAppSelector(selectCategory);
+  const liveRaces = useAppSelector(selectLiveRaces);
+
+  const { data, isLoading, error } = useRaceData({
+    selectedCategory,
+    liveRaces,
+  });
   //   const lastChecked = useAppSelector(selectLastChecked);
 
   if (isLoading) {
@@ -29,16 +35,6 @@ export function RaceCardList() {
 
   return (
     <div className="space-y-4">
-      {/* Next Refresh Info */}
-      <div className="flex items-center gap-2 text-sm text-text-secondary">
-        <span className="material-symbols-outlined" style={{ fontSize: 16 }}>
-          update
-        </span>
-        {/* <span>Next refresh: {formatNextRefresh()}</span> */}
-        <RefreshCountdown />
-      </div>
-
-      {/* Race Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
         {data.map((race) => (
           <RaceCard key={race.race_id} race={race} />

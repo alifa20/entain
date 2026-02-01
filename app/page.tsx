@@ -34,16 +34,7 @@ export default function Home() {
           <CategoriesFilter />
         </div>
         <div className="space-y-4">
-          <div className="flex items-center gap-2 text-sm text-text-secondary">
-            <span
-              className="material-symbols-outlined"
-              style={{ fontSize: 16 }}
-            >
-              update
-            </span>
-
-            <RefreshCountdown />
-          </div>
+          <RefreshCountdown />
 
           <RaceCardList />
         </div>

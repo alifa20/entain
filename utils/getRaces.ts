@@ -1,19 +1,49 @@
-import { ApiResponse } from "@/types/races";
+import { ApiResponse, CategoryId, LiveRace } from "@/types/races";
 
 interface Props {
   data?: ApiResponse;
+  selectedCategory: CategoryId | null;
+  liveRaces: LiveRace[];
 }
 
-export function getRaces({ data }: Props) {
-  if (!data) return [];
+export function getRaces({ data, selectedCategory, liveRaces }: Props) {
+  if (!data) {
+    return [];
+  }
+  const { next_to_go_ids } = data.data ?? {};
 
-  const { next_to_go_ids = [], race_summaries } = data.data ?? {};
+  const filteredRaceIds = selectedCategory
+    ? next_to_go_ids.filter((raceId) => {
+        const race = data.data.race_summaries[raceId];
+        return race?.category_id === selectedCategory;
+      })
+    : next_to_go_ids;
 
-  const upcomingRaces =
-    next_to_go_ids.map((raceId) => race_summaries[raceId])?.slice(0, 5) || [];
+  const upcomingRaces = filteredRaceIds.map(
+    (raceId) => data.data.race_summaries[raceId],
+  );
 
-  const sortedUpcoming = [...upcomingRaces].sort(
+  // Create set of live race IDs for deduplication
+  const liveRaceIds = new Set(liveRaces.map((lr) => lr.race.race_id));
+
+  // Remove races from upcoming that are already in live races (use Redux version)
+  const filteredUpcoming = upcomingRaces.filter(
+    (race) => !liveRaceIds.has(race.race_id),
+  );
+
+  // Filter live races by selected category
+  const filteredLiveRaces = selectedCategory
+    ? liveRaces.filter((lr) => lr.race.category_id === selectedCategory)
+    : liveRaces;
+
+  const sortedUpcoming = [...filteredUpcoming].sort(
     (a, b) => a.advertised_start.seconds - b.advertised_start.seconds,
   );
-  return sortedUpcoming;
+
+  const combined = [
+    ...filteredLiveRaces.map((lr) => lr.race),
+    ...sortedUpcoming,
+  ];
+
+  return combined.slice(0, 5);
 }
