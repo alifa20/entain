@@ -1,9 +1,9 @@
 "use client";
 
+import { LIVE_RACE_DURATION_SECONDS } from "@/constants";
 import { useAppDispatch, useAppSelector } from "@/lib/store";
 import {
   addLiveRace,
-  LIVE_RACE_DURATION_SECONDS,
   removeLiveRace,
   selectIsRaceLive,
   selectLiveRaceStartTime,
@@ -37,8 +37,13 @@ export function RaceTimer({ race }: RaceTimerProps) {
         }
       } else {
         const remaining = race.advertised_start.seconds - now;
+        const timeSinceStart = now - race.advertised_start.seconds;
 
-        if (remaining <= 0 && !isLive) {
+        if (
+          remaining <= 0 &&
+          !isLive &&
+          timeSinceStart < LIVE_RACE_DURATION_SECONDS
+        ) {
           dispatch(addLiveRace(race));
           setTimeLeft(0);
         } else {
@@ -73,7 +78,11 @@ export function RaceTimer({ race }: RaceTimerProps) {
     <div
       className={`flex items-center gap-1 px-2.5 py-1 rounded-lg whitespace-nowrap text-primary bg-transparent border border-primary/30`}
     >
-      <span className="material-symbols-outlined" style={{ fontSize: 16 }} aria-hidden="true">
+      <span
+        className="material-symbols-outlined"
+        style={{ fontSize: 16 }}
+        aria-hidden="true"
+      >
         timer
       </span>
       <span className="font-mono font-bold text-sm">{timer(timeLeft)}</span>

@@ -6,7 +6,7 @@ export const timer = (seconds: number): string => {
 
 export function formatTime(timestamp: number | null): string {
   if (!timestamp) {
-    return "--:--";
+    return "--:--:--";
   }
 
   const date = new Date(timestamp);

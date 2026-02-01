@@ -12,8 +12,8 @@ describe("timeFormatter", () => {
   });
 
   describe("formatTime", () => {
-    test("returns '--:--' for null timestamp", () => {
-      expect(formatTime(null)).toBe("--:--");
+    test("returns '--:--:--' for null timestamp", () => {
+      expect(formatTime(null)).toBe("--:--:--");
     });
 
     test("formats time in HH:mm format", () => {

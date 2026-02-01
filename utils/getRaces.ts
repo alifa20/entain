@@ -1,3 +1,4 @@
+import { LIVE_RACE_DURATION_SECONDS } from "@/constants";
 import { ApiResponse, CategoryId, LiveRace } from "@/types/races";
 
 interface Props {
@@ -12,6 +13,7 @@ export function getRaces({ data, selectedCategory, liveRaces }: Props) {
   }
 
   const { next_to_go_ids } = data.data;
+  const now = Math.floor(Date.now() / 1000);
 
   const filteredRaceIds = selectedCategory
     ? next_to_go_ids.filter((raceId) => {
@@ -20,18 +22,31 @@ export function getRaces({ data, selectedCategory, liveRaces }: Props) {
       })
     : next_to_go_ids;
 
-  const upcomingRaces = filteredRaceIds.map(
-    (raceId) => data.data.race_summaries[raceId],
-  );
+  const upcomingRaces = filteredRaceIds
+    .map((raceId) => data.data.race_summaries[raceId])
+    .filter((race) => {
+      const timeSinceStart = now - race.advertised_start.seconds;
+      return timeSinceStart < LIVE_RACE_DURATION_SECONDS;
+    });
 
   const liveRaceIds = new Set(liveRaces.map((lr) => lr.race.race_id));
   const filteredUpcoming = upcomingRaces.filter(
     (race) => !liveRaceIds.has(race.race_id),
   );
 
-  const filteredLiveRaces = selectedCategory
-    ? liveRaces.filter((lr) => lr.race.category_id === selectedCategory)
-    : liveRaces;
+  const filteredLiveRaces = liveRaces.filter((lr) => {
+    const elapsed = now - lr.startedAt;
+
+    if (elapsed >= LIVE_RACE_DURATION_SECONDS) {
+      return false;
+    }
+
+    if (selectedCategory && lr.race.category_id !== selectedCategory) {
+      return false;
+    }
+
+    return true;
+  });
 
   const sortedUpcoming = [...filteredUpcoming].sort(
     (a, b) => a.advertised_start.seconds - b.advertised_start.seconds,
