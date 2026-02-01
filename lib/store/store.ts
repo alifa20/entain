@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import { api } from "../services/api";
 import categoryReducer from "./categorySlice";
 import metadataReducer from "./metadataSlice";
+import liveRacesReducer from "./liveRacesSlice";
 
 export const makeStore = () => {
   return configureStore({
@@ -9,6 +10,7 @@ export const makeStore = () => {
       [api.reducerPath]: api.reducer,
       category: categoryReducer,
       metadata: metadataReducer,
+      liveRaces: liveRacesReducer,
     },
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware().concat(api.middleware),
