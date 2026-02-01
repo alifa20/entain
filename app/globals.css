@@ -1,8 +1,15 @@
 @import "tailwindcss";
 
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --color-primary: #FF6B35;
+  --color-background-dark: #0F1419;
+  --color-surface-dark: #1E2732;
+  --color-surface-hover: #252E38;
+  --color-border-dark: #364A5A;
+  --color-text-secondary: #8899A6;
 }
 
 @theme inline {
@@ -10,6 +17,12 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --color-primary: var(--color-primary);
+  --color-background-dark: var(--color-background-dark);
+  --color-surface-dark: var(--color-surface-dark);
+  --color-surface-hover: var(--color-surface-hover);
+  --color-border-dark: var(--color-border-dark);
+  --color-text-secondary: var(--color-text-secondary);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -22,5 +35,20 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Shimmer animation for skeleton loading */
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 2s infinite;
 }
