@@ -2,6 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import type { ApiResponse } from "@/types/races";
 import { setLastChecked } from "../store/metadataSlice";
 import { getSampleRacesData } from "@/__fixtures__/sample-races";
+import crossFetch from "cross-fetch";
 
 const API_BASE_URL = "https://api.neds.com.au/rest/v1";
 const USE_MOCK_DATA = process.env.NEXT_PUBLIC_USE_MOCK_DATA === "true";
@@ -10,6 +11,7 @@ export const api = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
     baseUrl: API_BASE_URL,
+    fetchFn: crossFetch,
   }),
   tagTypes: ["Races"],
   endpoints: (builder) => ({

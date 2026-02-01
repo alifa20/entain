@@ -26,7 +26,8 @@ export function getRaces({ data, selectedCategory, liveRaces }: Props) {
     .map((raceId) => data.data.race_summaries[raceId])
     .filter((race) => {
       const timeSinceStart = now - race.advertised_start.seconds;
-      return timeSinceStart < LIVE_RACE_DURATION_SECONDS;
+      // Sometimes the api keeps the record of races that has started for a couple of seconds, and we want to exclude those
+      return timeSinceStart < 0;
     });
 
   const liveRaceIds = new Set(liveRaces.map((lr) => lr.race.race_id));
