@@ -1,36 +1,86 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Entain - Next to Go - Racing Application
 
-## Getting Started
+Create a single page application that displays 'Next to go’ races using our API.
+A user should see 5 races at all times, and they should be sorted by time ascending. Race should disappear from the list after 1 min past the start time (advertised_start). User should see meeting name (meeting_name), race number (race_number) and countdown timer that indicates the start of the race.
+User should be able to toggle race categories to view races belonging to only the selected
+category.
 
-First, run the development server:
+## Quick Start
 
 ```bash
+# Install dependencies
+npm install
+
+# Run the application
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+# Open http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Build for Production
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run build
+npm start
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Core Features
 
-## Learn More
+- Always shows 5 races - Automatically displays the next 5 races to go
+- Live countdown timers - Real-time countdown to race start
+- Category filtering - Filter by Horse, Greyhound, or Harness racing
+- Auto-refresh - Updates every 60 seconds with fresh race data
+- Race removal - Races disappear 1 minute after they start
 
-To learn more about Next.js, take a look at the following resources:
+## How it works
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+This is a Next.js project structured across multiple folders. Core logic such as the store and API services is housed in the lib directory, with the intention that this logic can be extracted into a separate package if required in the future. In contrast, components, hooks, and utils etc, are designed with lower reusability in mind and are more tightly coupled to the application’s business logic and functional requirements.
+The project uses Tailwind CSS, with layouts and smaller UI components designed from the ground up. The mock UI design is as follows:
+<img width="2853" height="2135" alt="image" src="https://github.com/user-attachments/assets/1482c9ca-a913-4c63-84fa-58a28e72e976" />
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Smart Timer System
 
-## Deploy on Vercel
+- **Before start**: Shows countdown timer (e.g., "02m 30s")
+- **After start**: Shows elapsed time with green badge (e.g., "00m 15s")
+- **After 1 minute**: Race automatically disappears from the list
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Project Structure
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+app/
+├── page.tsx                    # Main page
+├── layout.tsx                  # App wrapper with providers
+└── globals.css                 # Global styles
+
+components/
+├── Categories.tsx              # Filter buttons
+├── RaceCardList.tsx            # Race grid container
+├── RaceCard.tsx                # Individual race card
+├── RaceTimer.tsx               # Countdown/count-up timer
+└── RaceDetails.tsx             # Race information
+
+lib/
+├── store/
+│   ├── store.ts                # Redux store setup
+│   ├── categorySlice.ts        # Category filter state
+│   ├── liveRacesSlice.ts       # Live races management
+│   └── metadataSlice.ts        # Last refresh time
+└── services/
+    └── api.ts                  # API integration
+
+hooks/
+└── useRaceData.ts              # Main data fetching hook
+
+types/
+└── races.ts                    # TypeScript types
+```
+
+### Why Custom Hook (useRaceData)?
+
+Instead of duplicating complex filtering and sorting logic across components, a single custom hook provides:
+
+- One place to manage the "top 5 races" logic
+- Consistent behavior everywhere
+- Easier testing and maintenance
+- Clean component code
+- Able to have the live races into a separate redux slice and aggregate the api data with state live race data into one hook and have a centralized place to manage the data filtering logic

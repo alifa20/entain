@@ -27,9 +27,9 @@ export function RaceCard({ race }: RaceCardProps) {
             {/* Timer Badge */}
             <RaceTimer race={race} />
           </div>
-          <h3 className="font-bold text-white text-lg leading-tight mt-2 min-h-12">
+          <h2 className="font-bold text-white text-lg leading-tight mt-2 min-h-12">
             {race.race_name}
-          </h3>
+          </h2>
         </div>
       </div>
 
@@ -37,14 +37,15 @@ export function RaceCard({ race }: RaceCardProps) {
       <div className="p-4 border-b border-border-dark/30 flex-1">
         <div className="flex items-start gap-3 ml-1">
           <div className="flex-1">
-            <h4 className="font-semibold text-white text-sm mb-1">
+            <h3 className="font-semibold text-white text-sm mb-1">
               {race.venue_name}
-            </h4>
+            </h3>
             <div className="flex items-center gap-2 text-xs text-text-secondary">
               <span className="flex items-center gap-1">
                 <span
                   className="material-symbols-outlined"
                   style={{ fontSize: 14 }}
+                  aria-hidden="true"
                 >
                   location_on
                 </span>
@@ -55,6 +56,7 @@ export function RaceCard({ race }: RaceCardProps) {
                 <span
                   className="material-symbols-outlined"
                   style={{ fontSize: 14 }}
+                  aria-hidden="true"
                 >
                   {weatherIcon(race.race_form.weather?.icon_uri ?? "")}
                 </span>
@@ -67,16 +69,6 @@ export function RaceCard({ race }: RaceCardProps) {
           <RaceDetails race={race} />
         </div>
       </div>
-
-      {/* Card Footer */}
-      {/* <div className="bg-[#232d38]/50 p-3 border-t border-border-dark/30 flex justify-center">
-        <button className="text-xs font-semibold text-text-secondary uppercase tracking-wide hover:text-white flex items-center gap-1 transition-colors">
-          View Full Race{' '}
-          <span className="material-symbols-outlined" style={{ fontSize: 14 }}>
-            arrow_forward
-          </span>
-        </button>
-      </div> */}
     </div>
   );
 }

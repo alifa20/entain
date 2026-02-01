@@ -28,6 +28,7 @@ export function RaceDetails({ race }: RaceDetailsProps) {
             <span
               className="material-symbols-outlined"
               style={{ fontSize: 14 }}
+              aria-hidden="true"
             >
               info
             </span>

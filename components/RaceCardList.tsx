@@ -15,7 +15,6 @@ export function RaceCardList() {
     selectedCategory,
     liveRaces,
   });
-  //   const lastChecked = useAppSelector(selectLastChecked);
 
   if (isLoading) {
     return (

@@ -11,7 +11,6 @@ interface StoreProviderProps {
 export function StoreProvider({ children }: StoreProviderProps) {
   const storeRef = useRef<AppStore>(null);
   if (storeRef.current === null) {
-    // Create the store instance the first time this renders
     storeRef.current = makeStore();
   }
 

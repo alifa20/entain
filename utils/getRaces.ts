@@ -7,10 +7,11 @@ interface Props {
 }
 
 export function getRaces({ data, selectedCategory, liveRaces }: Props) {
-  if (!data) {
+  if (!data?.data?.next_to_go_ids?.length) {
     return [];
   }
-  const { next_to_go_ids } = data.data ?? {};
+
+  const { next_to_go_ids } = data.data;
 
   const filteredRaceIds = selectedCategory
     ? next_to_go_ids.filter((raceId) => {
@@ -23,15 +24,11 @@ export function getRaces({ data, selectedCategory, liveRaces }: Props) {
     (raceId) => data.data.race_summaries[raceId],
   );
 
-  // Create set of live race IDs for deduplication
   const liveRaceIds = new Set(liveRaces.map((lr) => lr.race.race_id));
-
-  // Remove races from upcoming that are already in live races (use Redux version)
   const filteredUpcoming = upcomingRaces.filter(
     (race) => !liveRaceIds.has(race.race_id),
   );
 
-  // Filter live races by selected category
   const filteredLiveRaces = selectedCategory
     ? liveRaces.filter((lr) => lr.race.category_id === selectedCategory)
     : liveRaces;

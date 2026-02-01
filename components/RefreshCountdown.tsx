@@ -9,7 +9,7 @@ export default function RefreshCountdown() {
 
   return (
     <div className="flex items-center gap-2 text-sm text-text-secondary">
-      <span className="material-symbols-outlined" style={{ fontSize: 16 }}>
+      <span className="material-symbols-outlined" style={{ fontSize: 16 }} aria-hidden="true">
         update
       </span>
 
