@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/tailwind-util";
 import React from "react";
 
 interface FilterChipProps extends React.ComponentPropsWithoutRef<"button"> {
