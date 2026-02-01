@@ -2,6 +2,7 @@
 
 import { RaceSummary } from "@/types/races";
 import { weatherIcon } from "@/utils/weatherIcon";
+import { getCategoryInfo } from "@/utils/getCategoryInfo";
 import { RaceDetails } from "./RaceDetails";
 import { RaceTimer } from "./RaceTimer";
 
@@ -14,9 +15,10 @@ export function RaceCard({ race }: RaceCardProps) {
     return null;
   }
 
+  const categoryInfo = getCategoryInfo(race.category_id);
+
   return (
     <div className="bg-surface-dark rounded-xl border border-border-dark/30 overflow-hidden hover:border-border-dark transition-colors group flex flex-col h-full">
-      {/* Card Header */}
       <div className="px-4 py-3 border-b border-border-dark/30 bg-[#232d38]">
         <div className="flex flex-col gap-0.5">
           <div className="flex items-center justify-between leading-none">
@@ -24,7 +26,6 @@ export function RaceCard({ race }: RaceCardProps) {
               Race {race.race_number} • {race.race_form.distance}
               {race.race_form.distance_type.short_name}
             </span>
-            {/* Timer Badge */}
             <RaceTimer race={race} />
           </div>
           <h2 className="font-bold text-white text-lg leading-tight mt-2 min-h-12">
@@ -33,7 +34,6 @@ export function RaceCard({ race }: RaceCardProps) {
         </div>
       </div>
 
-      {/* Race Info Section */}
       <div className="p-4 border-b border-border-dark/30 flex-1">
         <div className="flex items-start gap-3 ml-1">
           <div className="flex-1">
@@ -65,7 +65,14 @@ export function RaceCard({ race }: RaceCardProps) {
             </div>
           </div>
         </div>
-        <div className="mt-4">
+        <div className="mt-4 mb-3">
+          <span
+            className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md border text-xs font-semibold ${categoryInfo.color}`}
+          >
+            {categoryInfo.name}
+          </span>
+        </div>
+        <div>
           <RaceDetails race={race} />
         </div>
       </div>
